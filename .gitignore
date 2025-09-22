@@ -1,0 +1,58 @@
+# Terraform local state & providers
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+crash.log
+*.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Local files
+*.exe
+
+# === OS / Editor junk ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# === Terraform ===
+**/.terraform/             # Local Terraform dirs
+**/.terraform.lock.hcl     # Provider lock file
+**/*.tfstate               # Terraform state files
+**/*.tfstate.backup
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Example secrets (users will copy to real ones)
+terraform.tfvars
+!terraform.tfvars.example
+
+# === Kubernetes ===
+k8s/secrets.yaml           # Real secrets should NOT be in git
+k8s/*.secret.yaml
+
+# === Logs / temp ===
+*.log
+*.tmp
+
+# === Python / virtualenv (if used for scripts) ===
+__pycache__/
+*.pyc
+.venv/
+env/
+venv/
+
+# === Node / frontend (if you add UI later) ===
+node_modules/
+dist/
+build/

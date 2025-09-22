@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders
+  namespace: project-bedrock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+        - name: orders
+          image: your-dockerhub-username/orders:latest
+          ports:
+            - containerPort: 8080
+          env:
+            # Postgres DB connection
+            - name: POSTGRES_HOST
+              value: postgres
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: postgres-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: postgres-password
+            - name: POSTGRES_DB
+              value: ordersdb
+
+            # RabbitMQ connection
+            - name: RABBITMQ_HOST
+              value: rabbitmq
+            - name: RABBITMQ_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: rabbitmq-username
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: rabbitmq-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders
+  namespace: project-bedrock
+spec:
+  selector:
+    app: orders
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
